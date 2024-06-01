@@ -1,8 +1,11 @@
 package org.cm.driver;
 
+import org.cm.health.Health;
 import org.cm.health.reactive.AbstractReactiveHealthIndicator;
-import org.cm.pojo.CqlSession;
-import org.cm.pojo.Mono;
+import org.cm.pojo.*;
+
+import java.util.Collection;
+import java.util.Optional;
 
 
 /**
@@ -20,7 +23,11 @@ public class CassandraDriverReactiveHealthIndicator extends AbstractReactiveHeal
 	}
 
 	@Override
-	protected Mono doHealthCheck(String builder) {
-		return null;
+	protected Mono doHealthCheck(Health.Builder builder) {
+		Collection<Node> nodes = this.session.getMetadata().getNodes().values();
+		Optional<Node> nodeUp = nodes.stream().filter((node) -> node.getState() == NodeState.UP).findAny();
+		builder.status(nodeUp.isPresent() ? Status.UP : Status.DOWN);
+		nodeUp.map(Node::getCassandraVersion).ifPresent((version) -> builder.withDetail("version", version));
+		return new Mono(builder.build());
 	}
 }

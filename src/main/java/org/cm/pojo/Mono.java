@@ -1,5 +1,7 @@
 package org.cm.pojo;
 
+import org.cm.health.Health;
+
 /**
  * SpringActuatorPOC
  * Created By Khan, C M Abdullah on 2/6/24 : Time: 01:05
@@ -7,17 +9,17 @@ package org.cm.pojo;
  */
 public class Mono {
 
-	private String value;
+	private Health value;
 
-	public String getValue() {
+	public Health getValue() {
 		return value;
 	}
 
-	public void setValue(String value) {
+	public void setValue(Health value) {
 		this.value = value;
 	}
 
-	public Mono(String value) {
+	public Mono(Health value) {
 		this.value = value;
 	}
 }

@@ -2,6 +2,7 @@ package org.cm.health;
 
 import org.cm.pojo.Status;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -12,6 +13,14 @@ import java.util.Map;
  */
 public class Health {
 
+	private final Status status;
+
+	private final Map<String, Object> details;
+
+	private Health(Builder builder) {
+		this.status = builder.status;
+		this.details = Collections.unmodifiableMap(builder.details);
+	}
 
 
 	public static class Builder {
@@ -20,6 +29,7 @@ public class Health {
 		private final Map<String, Object> details;
 
 		private Throwable exception;
+
 
 		public Builder() {
 			this.status = Status.UNKNOWN;
@@ -34,6 +44,10 @@ public class Health {
 		public Builder withDetail(String key, Object value) {
 			this.details.put(key, value);
 			return this;
+		}
+
+		public Health build() {
+			return new Health(this);
 		}
 	}
 }

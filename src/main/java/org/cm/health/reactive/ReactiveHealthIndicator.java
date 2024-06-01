@@ -1,5 +1,6 @@
 package org.cm.health.reactive;
 
+import org.cm.health.Health;
 import org.cm.pojo.Mono;
 
 /**
@@ -12,7 +13,7 @@ public interface ReactiveHealthIndicator extends ReactiveHealthContributor {
 
 	default Mono getHealth(boolean includeDetails) {
 		Mono health = health();
-		return includeDetails ? health : new Mono("Hello");
+		return includeDetails ? health : new Mono(health.getValue());
 	}
 	Mono health();
 }

@@ -28,13 +28,14 @@ public abstract class AbstractHealthIndicator implements HealthIndicator {
 	@Override
 	public final String health() {
 		String str = "Health status";
+		Health.Builder builder = new Health.Builder();
 		try {
-			doHealthCheck(str);
+			doHealthCheck(builder);
 		} catch (Exception ex) {
 			str = "";
 		}
 		return str.toLowerCase();
 	}
 
-	protected abstract void doHealthCheck(String builder) throws Exception;
+	protected abstract void doHealthCheck(Health.Builder builder) throws Exception;
 }

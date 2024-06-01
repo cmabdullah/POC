@@ -1,5 +1,6 @@
 package org.cm.health.reactive;
 
+import org.cm.health.Health;
 import org.cm.pojo.Mono;
 
 import java.util.function.Function;
@@ -30,13 +31,14 @@ public abstract class AbstractReactiveHealthIndicator implements ReactiveHealthI
 	public final Mono health() {
 		String str = "Health status";
 		Mono builder;
+		Health.Builder customBuilder = new Health.Builder();
 		try {
-			builder = doHealthCheck(str);
+			builder = doHealthCheck(customBuilder);
 		} catch (Exception ex) {
-			builder = new Mono(ex.getLocalizedMessage());
+			builder = new Mono(customBuilder.build());
 		}
 		return builder;
 	}
 
-	protected abstract Mono doHealthCheck(String builder);
+	protected abstract Mono doHealthCheck(Health.Builder builder);
 }
